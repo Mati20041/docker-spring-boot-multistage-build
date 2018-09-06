@@ -1,6 +1,9 @@
 FROM openjdk:10-jdk as build-step
-COPY demo /workspace
 WORKDIR /workspace
+COPY demo/build.gradle demo/settings.gradle demo/gradlew /workspace/
+COPY demo/gradle/ /workspace/gradle/
+RUN ./gradlew resolveDependencies
+COPY demo /workspace
 RUN ./gradlew bootJar
 
 FROM openjdk:10-jre
